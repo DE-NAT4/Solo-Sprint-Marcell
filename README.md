@@ -1,1 +1,1 @@
-# This is a individual mini sprint project 
+# This is an individual mini sprint project 
