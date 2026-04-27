@@ -1,22 +1,42 @@
 import csv
 
-users_active = [{'name': 'John', 'password': '1234', 'status': 'active'}, {'name': 'Kate', 'password': '5678', 'status': 'active'}]
-users_disabled = []
+# users_active = [{'name': 'John', 'password': '1234', 'status': 'active'}, {'name': 'Kate', 'password': '5678', 'status': 'active'}]
+
+# users_disabled = [{'name': 'Pete', 'password': '1554', 'status': 'disabled'}, {'name': 'Fred', 'password': '888', 'status': 'disabled'}]
+
+users_active =[]
+users_disabled =[]
 
 def save_users_to_csv():
     with open('users.csv', 'w', newline='') as csvfile:
-        fieldnames = ['username', 'password', 'status']
+        fieldnames = ['name', 'password', 'status']
         writer = csv.DictWriter(csvfile, fieldnames=fieldnames)
 
         writer.writeheader()
         for user in users_active:
-            writer.writerow({'username': user['name'], 'password': user['password'], 'status': user['status']})
+            writer.writerow({'name': user['name'], 'password': user['password'], 'status': user['status']})
 
         for user in users_disabled:
-            writer.writerow({'username': user['name'], 'password': user['password'], 'status': user['status']})
+            writer.writerow({'name': user['name'], 'password': user['password'], 'status': user['status']})
 
 def load_users_from_csv():
-    pass
+    try:
+        with open('users.csv', 'r', newline='') as csvfile:
+            reader = csv.DictReader(csvfile)
+            for row in reader:
+                user = {
+                    'name': row['name'],
+                    'password': row['password'],
+                    'status': row['status']
+                }
+
+                if user['status'] == 'active':
+                    users_active.append(user)
+                elif user['status'] == 'disabled':
+                    users_disabled.append(user)
+
+    except FileNotFoundError:
+        print("Error: File not found")
 
 
 
@@ -69,7 +89,6 @@ def add_user():
             case _:
                 print("Invalid status")
 
-
 def toggle_user_status():
     while True:
         choice = input('Type "disable" to disable an active user or type "enable" to enable a  disabled user: ').lower()
@@ -118,8 +137,7 @@ def toggle_user_status():
             case _:
                 print("Invalid input")
 
-            
-
+load_users_from_csv()
 
 while True:
     print_menu()        

@@ -1,3 +1,6 @@
-username,password,status
+name,password,status
 John,1234,active
-Kate,5678,disabled
+Kate,5678,active
+Toby,666,active
+Pete,1554,disabled
+Fred,888,disabled
